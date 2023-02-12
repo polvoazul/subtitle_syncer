@@ -2,14 +2,14 @@
 import atexit
 import os
 import shutil
-import pysrt
 import click
 from langdetect import detect
 
-from smart import fit_subtitle_to_audio
+import pysrt
+from smart import fit_subtitles_to_audio
 from utils import SCRATCH
+import better_exceptions; better_exceptions.hook()
 
-debug = print
 def cleanup():
     shutil.rmtree(SCRATCH)
 
@@ -20,7 +20,7 @@ def main(movie_file):
     validate(movie_file)
     subtitles: pysrt.SubRipFile = read_subtitles(movie_file)
     language = detect_language(subtitles.text)
-    fit_subtitle_to_audio(subtitles, movie_file)
+    fit_subtitles_to_audio(subtitles, movie_file)
 
 def detect_language(text):
     language = detect(text)
